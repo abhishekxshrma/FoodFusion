@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import restaurants from "../data/restaurants";
 
 function Home() {
   return (
@@ -26,7 +27,7 @@ function Home() {
         <h2>Popular Restaurants</h2>
 
         <div>
-          {restaurants.slice(0, 4).map((restaurant) => (
+          {restaurants.slice(0, 6).map((restaurant) => (
             <div key={restaurant.id}>
               <img
                 src={restaurant.image}
