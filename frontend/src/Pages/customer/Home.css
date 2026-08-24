@@ -1,0 +1,90 @@
+.hero {
+  background: #fff3e8;
+  text-align: center;
+  padding: 60px 20px;
+  border-radius: 10px;
+  border: 1px solid #ffd8be;
+  margin-bottom: 40px;
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 12px;
+  color: #222;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: 0 auto 25px;
+  color: #666;
+  font-size: 16px;
+}
+
+.hero-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e85d04;
+  color: white;
+  text-decoration: none;
+  padding: 11px 22px;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.btn:hover {
+  background: #d94f00;
+  transform: translateY(-1px);
+}
+
+/* Sections */
+.main-content > div > section:not(.hero) {
+  margin-bottom: 45px;
+}
+
+.main-content h2 {
+  margin-bottom: 20px;
+  color: #222;
+}
+
+/* Restaurant Grid */
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 25px;
+}
+
+/* Group Section */
+.group-section {
+  background: white;
+  text-align: center;
+  padding: 40px 20px;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.group-section p {
+  color: #666;
+  margin-bottom: 25px;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .hero h1 {
+    font-size: 30px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}

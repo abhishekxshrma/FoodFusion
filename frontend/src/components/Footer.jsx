@@ -1,6 +1,8 @@
+import "./Footer.css";
+
 function Footer() {
   return (
-    <footer>
+    <footer className="footer">
       <p>© 2026 FoodFusion. All rights reserved.</p>
     </footer>
   );

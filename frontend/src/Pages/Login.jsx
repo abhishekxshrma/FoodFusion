@@ -1,10 +1,57 @@
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 function Login() {
-    return (
-        <div>
-            <h1>Login</h1>
-            <p>Please log in to your account.</p>
-        </div>
-    );
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    alert("Logged in successfully!");
+    navigate("/customer");
+  };
+
+  return (
+    <div style={{ minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" }}>
+      <div className="dashboard-card" style={{ width: "100%", maxWidth: "420px", padding: "35px 30px" }}>
+        <h1 style={{ textCenter: "center", marginBottom: "8px" }}>Welcome Back</h1>
+        <p style={{ textAlign: "center", marginBottom: "25px", color: "#666" }}>Please log in to your FoodFusion account.</p>
+
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: "20px" }}>
+            <label>Email Address</label>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div style={{ marginBottom: "20px" }}>
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="••••••••"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <button type="submit" className="primary-btn" style={{ width: "100%", padding: "12px", fontSize: "15px", marginTop: "10px" }}>
+            Log In
+          </button>
+
+          <p style={{ textAlign: "center", marginTop: "20px", fontSize: "14px", color: "#666" }}>
+            Don't have an account? <Link to="/register" style={{ color: "#e85d04", fontWeight: "bold", textDecoration: "none" }}>Register</Link>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Login;

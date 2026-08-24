@@ -1,0 +1,113 @@
+.restaurant-layout {
+  min-height: 100vh;
+  background: #f8f8f8;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar */
+.restaurant-navbar {
+  height: 65px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+}
+
+.restaurant-navbar-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.restaurant-logo {
+  color: #e85d04;
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.portal-badge {
+  font-size: 12px;
+  font-weight: 600;
+  background: #fff3e8;
+  color: #e85d04;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid #ffd8be;
+}
+
+.restaurant-nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.restaurant-nav-links a {
+  color: #444;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.restaurant-nav-links a:hover,
+.restaurant-nav-links a.active {
+  color: #e85d04;
+}
+
+.restaurant-nav-links a.active {
+  font-weight: bold;
+}
+
+.switch-portal-link {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.switch-portal-link:hover {
+  color: #e85d04;
+}
+
+/* Main content */
+.restaurant-main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 40px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .restaurant-navbar {
+    height: auto;
+    padding: 15px 0;
+  }
+
+  .restaurant-navbar-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 0 20px;
+  }
+
+  .restaurant-nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .restaurant-main {
+    padding: 20px 16px;
+  }
+}

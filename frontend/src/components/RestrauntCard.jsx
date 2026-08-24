@@ -1,27 +1,34 @@
 import { Link } from "react-router-dom";
+import "./RestrauntCard.css";
 
 function RestrauntCard({ restaurant }) {
   return (
-    <div>
+    <div className="restaurant-card">
       <img
         src={restaurant.image}
         alt={restaurant.name}
-        width="200"
       />
 
-      <h2>{restaurant.name}</h2>
+      <div className="restaurant-card-content">
+        <h3>{restaurant.name}</h3>
 
-      <p>{restaurant.cuisine}</p>
+        <p className="cuisine">
+          {restaurant.cuisine}
+        </p>
 
-      <p>{restaurant.rating}</p>
+        <p>⭐ {restaurant.rating}</p>
 
-      <p>Delivery: {restaurant.deliveryTime}</p>
+        <p>🕐 {restaurant.deliveryTime}</p>
 
-      <p>₹{restaurant.priceForTwo} for two</p>
+        <p>₹{restaurant.priceForTwo} for two</p>
 
-      <Link to={`/restaurant/${restaurant.id}`}>
-        View Menu
-      </Link>
+        <Link
+          to={`/restaurant/${restaurant.id}`}
+          className="view-menu"
+        >
+          View Menu
+        </Link>
+      </div>
     </div>
   );
 }

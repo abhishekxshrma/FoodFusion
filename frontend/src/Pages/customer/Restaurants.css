@@ -1,0 +1,33 @@
+.restaurants-page {
+  padding: 10px 0;
+}
+
+.restaurants-page h1 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.search-input {
+  display: block;
+  width: 500px;
+  max-width: 100%;
+  margin: 20px auto 35px;
+  padding: 12px 20px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  font-size: 15px;
+  outline: none;
+  background: white;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  border-color: #e85d04;
+  box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.15);
+}
+
+.restaurant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 25px;
+}
