@@ -18,7 +18,7 @@ export function CartProvider({ children }) {
             : cartItem
         );
       }
-
+      
       return [
         ...currentCart,
         {

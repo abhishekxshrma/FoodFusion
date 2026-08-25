@@ -23,7 +23,7 @@ function RestrauntCard({ restaurant }) {
         <p>₹{restaurant.priceForTwo} for two</p>
 
         <Link
-          to={`/restaurant/${restaurant.id}`}
+          to={`/restaurants/${restaurant.id}`}
           className="view-menu"
         >
           View Menu
