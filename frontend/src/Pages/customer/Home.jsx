@@ -1,9 +1,29 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import restaurants from "../../data/restaurants";
-import './Home.css';
+import { api } from "../../services/api";
 import RestrauntCard from "../../components/RestrauntCard";
+import './Home.css';
 
 function Home() {
+  const [restaurants, setRestaurants] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadRestaurants = async () => {
+      try {
+        const data = await api.restaurants.getAll();
+        setRestaurants(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Failed to load restaurants from API:", error);
+        setRestaurants([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadRestaurants();
+  }, []);
+
   return (
     <div>
       {/* Hero */}
@@ -30,14 +50,22 @@ function Home() {
       <section>
         <h2>Popular Restaurants</h2>
 
-        <div className="restaurant-grid">
-          {restaurants.slice(0, 4).map((restaurant) => (
-            <RestrauntCard
-              key={restaurant.id}
-              restaurant={restaurant}
-            />
-          ))}
-        </div>
+        {loading ? (
+          <p style={{ textAlign: "center", padding: "20px" }}>Loading restaurants...</p>
+        ) : restaurants.length > 0 ? (
+          <div className="restaurant-grid">
+            {restaurants.slice(0, 4).map((restaurant) => (
+              <RestrauntCard
+                key={restaurant._id || restaurant.id}
+                restaurant={restaurant}
+              />
+            ))}
+          </div>
+        ) : (
+          <p style={{ textAlign: "center", padding: "20px", color: "#666" }}>
+            No restaurants available at the moment.
+          </p>
+        )}
       </section>
 
       {/* Group Ordering */}

@@ -1,7 +1,23 @@
-import { NavLink, Link, Outlet } from "react-router-dom";
+import { NavLink, Link, Outlet, Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./RestaurantLayout.css";
 
 function RestaurantLayout() {
+  const { user, loading } = useAuth();
+
+  // Wait for auth state to resolve
+  if (loading) return null;
+
+  // Not logged in → redirect to restaurant login
+  if (!user) {
+    return <Navigate to="/restaurant/login" replace />;
+  }
+
+  // Wrong role → redirect to restaurant login
+  if (user.role !== "restaurant" && user.role !== "admin") {
+    return <Navigate to="/restaurant/login" replace />;
+  }
+
   return (
     <div className="restaurant-layout">
       <header className="restaurant-navbar">

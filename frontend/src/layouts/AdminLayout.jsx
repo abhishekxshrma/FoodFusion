@@ -1,7 +1,23 @@
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, Navigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 import "./AdminLayout.css";
 
 function AdminLayout() {
+  const { user, loading } = useAuth();
+
+  // Wait for auth state to resolve
+  if (loading) return null;
+
+  // Not logged in → redirect to admin login
+  if (!user) {
+    return <Navigate to="/admin/login" replace />;
+  }
+
+  // Wrong role → redirect to admin login
+  if (user.role !== "admin") {
+    return <Navigate to="/admin/login" replace />;
+  }
+
   return (
     <div className="admin-layout">
       <header className="admin-navbar">

@@ -1,0 +1,212 @@
+/* ============================================================
+   FoodFusion Shared Auth Form Styles
+   Used by Customer / Restaurant / Admin Login & Signup pages
+   ============================================================ */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f8f8;
+  padding: 30px 20px;
+  box-sizing: border-box;
+}
+
+.auth-card {
+  background: #ffffff;
+  border: 1px solid #e5e5e5;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+}
+
+/* Portal badge strip at top */
+.auth-portal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff4ef;
+  color: #e85d04;
+  border: 1px solid #fbd5bf;
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.auth-card h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: #222;
+  margin: 0 0 6px;
+}
+
+.auth-card .auth-subtitle {
+  color: #888;
+  font-size: 14px;
+  margin: 0 0 28px;
+}
+
+/* Error alert */
+.auth-error {
+  padding: 10px 14px;
+  background: #fee2e2;
+  border: 1px solid #f87171;
+  color: #991b1b;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Success alert */
+.auth-success {
+  padding: 10px 14px;
+  background: #dcfce7;
+  border: 1px solid #86efac;
+  color: #166534;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Form group */
+.auth-form-group {
+  margin-bottom: 18px;
+}
+
+.auth-form-group label {
+  display: block;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 7px;
+}
+
+.auth-form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+  background: #fff;
+  color: #222;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-form-group input:focus {
+  border-color: #e85d04;
+  box-shadow: 0 0 0 3px rgba(232, 93, 4, 0.12);
+}
+
+/* Two column row */
+.auth-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Submit button */
+.auth-submit-btn {
+  width: 100%;
+  padding: 13px;
+  background: #e85d04;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background: #d94f00;
+  transform: translateY(-1px);
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Toggle link */
+.auth-toggle {
+  text-align: center;
+  margin-top: 22px;
+  font-size: 14px;
+  color: #666;
+}
+
+.auth-toggle a {
+  color: #e85d04;
+  font-weight: 700;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+.auth-toggle a:hover {
+  text-decoration: underline;
+}
+
+/* Back to portal */
+.auth-back-link {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  font-size: 13px;
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.auth-back-link:hover {
+  color: #e85d04;
+}
+
+/* Logo at top */
+.auth-logo {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.auth-logo span {
+  font-size: 28px;
+  font-weight: 700;
+  color: #e85d04;
+}
+
+.auth-logo sub {
+  display: block;
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 2px;
+  font-weight: 400;
+}
+
+/* Divider */
+.auth-divider {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 24px 0;
+}
+
+@media (max-width: 520px) {
+  .auth-card {
+    padding: 28px 20px;
+  }
+
+  .auth-form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}

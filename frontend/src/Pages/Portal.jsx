@@ -28,9 +28,9 @@ function Portal() {
             </p>
 
             <button
-              onClick={() => navigate("/customer")}
+              onClick={() => navigate("/customer/login")}
             >
-              Continue as Customer
+              Customer
             </button>
           </div>
 
@@ -46,9 +46,9 @@ function Portal() {
             </p>
 
             <button
-              onClick={() => navigate("/restaurant/dashboard")}
+              onClick={() => navigate("/restaurant/login")}
             >
-              Continue as Restaurant
+              Restaurant Partner
             </button>
           </div>
 
@@ -64,9 +64,9 @@ function Portal() {
             </p>
 
             <button
-              onClick={() => navigate("/admin/dashboard")}
+              onClick={() => navigate("/admin/login")}
             >
-              Continue as Admin
+              Admin
             </button>
           </div>
 

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import "./RestrauntCard.css";
 
 function RestrauntCard({ restaurant }) {
+  const id = restaurant._id || restaurant.id;
   return (
     <div className="restaurant-card">
       <img
@@ -16,14 +17,37 @@ function RestrauntCard({ restaurant }) {
           {restaurant.cuisine}
         </p>
 
-        <p>⭐ {restaurant.rating}</p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <p style={{ margin: "4px 0" }}>⭐ {restaurant.rating || 4.5}</p>
+          <span
+            style={{
+              fontSize: "12px",
+              fontWeight: "600",
+              padding: "2px 8px",
+              borderRadius: "4px",
+              backgroundColor: restaurant.isAvailable !== false ? "#dcfce7" : "#fee2e2",
+              color: restaurant.isAvailable !== false ? "#166534" : "#991b1b",
+            }}
+          >
+            {restaurant.isAvailable !== false ? "Open" : "Closed"}
+          </span>
+        </div>
 
-        <p>🕐 {restaurant.deliveryTime}</p>
+        <p>🕐 {restaurant.deliveryTime || "25-30 min"}</p>
 
-        <p>₹{restaurant.priceForTwo} for two</p>
+        <p>₹{restaurant.priceForTwo || 400} for two</p>
+
+        <p style={{ fontSize: "13px", color: "#666", margin: "4px 0" }}>
+          📍 {restaurant.location || restaurant.city || "Campus Area"}
+          {restaurant.distance != null && (
+            <span style={{ fontWeight: "600", color: "#e85d04", marginLeft: "6px" }}>
+              ({restaurant.distance} km)
+            </span>
+          )}
+        </p>
 
         <Link
-          to={`/restaurants/${restaurant.id}`}
+          to={`/restaurants/${id}`}
           className="view-menu"
         >
           View Menu

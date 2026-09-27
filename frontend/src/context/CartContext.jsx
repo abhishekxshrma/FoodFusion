@@ -1,30 +1,49 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    try {
+      const savedCart = localStorage.getItem("foodfusion_cart");
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("foodfusion_cart", JSON.stringify(cart));
+    } catch (e) {
+      console.error("Failed to save cart to localStorage", e);
+    }
+  }, [cart]);
 
   const addToCart = (item, restaurant) => {
+    const itemId = item._id || item.id;
+    const restId = restaurant ? (restaurant._id || restaurant.id) : (item.restaurant || item.restaurantId);
+    const restName = restaurant ? restaurant.name : (item.restaurantName || "Restaurant");
+
     setCart((currentCart) => {
       const existingItem = currentCart.find(
-        (cartItem) => cartItem.id === item.id
+        (cartItem) => (cartItem._id || cartItem.id) === itemId
       );
 
       if (existingItem) {
         return currentCart.map((cartItem) =>
-          cartItem.id === item.id
+          (cartItem._id || cartItem.id) === itemId
             ? { ...cartItem, quantity: cartItem.quantity + 1 }
             : cartItem
         );
       }
-      
+
       return [
         ...currentCart,
         {
           ...item,
-          restaurantId: restaurant.id,
-          restaurantName: restaurant.name,
+          restaurantId: restId,
+          restaurantName: restName,
           quantity: 1,
         },
       ];
@@ -33,14 +52,14 @@ export function CartProvider({ children }) {
 
   const removeFromCart = (itemId) => {
     setCart((currentCart) =>
-      currentCart.filter((item) => item.id !== itemId)
+      currentCart.filter((item) => (item._id || item.id) !== itemId)
     );
   };
 
   const increaseQuantity = (itemId) => {
     setCart((currentCart) =>
       currentCart.map((item) =>
-        item.id === itemId
+        (item._id || item.id) === itemId
           ? { ...item, quantity: item.quantity + 1 }
           : item
       )
@@ -51,7 +70,7 @@ export function CartProvider({ children }) {
     setCart((currentCart) =>
       currentCart
         .map((item) =>
-          item.id === itemId
+          (item._id || item.id) === itemId
             ? { ...item, quantity: item.quantity - 1 }
             : item
         )
@@ -61,6 +80,9 @@ export function CartProvider({ children }) {
 
   const clearCart = () => {
     setCart([]);
+    try {
+      localStorage.removeItem("foodfusion_cart");
+    } catch {}
   };
 
   const total = cart.reduce(

@@ -1,58 +1,33 @@
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { api } from "../../services/api";
 import "./OrderDetails.css";
-
-const orders = [
-  {
-    id: "FF1024",
-    restaurant: "Food Palace",
-    date: "24 Aug 2026",
-    status: "Delivered",
-    address: "Hostel Block A",
-    payment: "Cash on Delivery",
-    items: [
-      { name: "Paneer Tikka", quantity: 2, price: 180 },
-      { name: "Butter Naan", quantity: 3, price: 50 },
-    ],
-    subtotal: 510,
-    deliveryFee: 0,
-    total: 510,
-  },
-  {
-    id: "FF1025",
-    restaurant: "Spice Garden",
-    date: "23 Aug 2026",
-    status: "On the way",
-    address: "Hostel Block A",
-    payment: "UPI",
-    items: [
-      { name: "Veg Biryani", quantity: 1, price: 220 },
-      { name: "Masala Coke", quantity: 2, price: 60 },
-    ],
-    subtotal: 340,
-    deliveryFee: 0,
-    total: 340,
-  },
-  {
-    id: "FF1026",
-    restaurant: "Urban Tadka",
-    date: "20 Aug 2026",
-    status: "Preparing",
-    address: "Hostel Block A",
-    payment: "UPI",
-    items: [
-      { name: "Chole Bhature", quantity: 2, price: 160 },
-    ],
-    subtotal: 320,
-    deliveryFee: 0,
-    total: 320,
-  },
-];
 
 function OrderDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const order = orders.find((order) => order.id === id);
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const data = await api.orders.getById(id);
+        setOrder(data);
+      } catch (err) {
+        console.error("Error fetching order details:", err);
+        setOrder(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrder();
+  }, [id]);
+
+  if (loading) {
+    return <p style={{ textAlign: "center", padding: "40px" }}>Loading order details...</p>;
+  }
 
   if (!order) {
     return (
@@ -69,6 +44,16 @@ function OrderDetails() {
     );
   }
 
+  const status = order.status || "Pending";
+  const statusClass = status.toLowerCase().replace(/\s+/g, "-");
+
+  const getStepStatus = (stepName) => {
+    const stages = ["Pending", "Confirmed", "Preparing", "Out for Delivery", "Delivered"];
+    const currentIdx = stages.indexOf(status);
+    const stepIdx = stages.indexOf(stepName);
+    return currentIdx >= stepIdx ? "completed" : "";
+  };
+
   return (
     <div className="order-details-page">
       <div className="order-details-container">
@@ -83,35 +68,31 @@ function OrderDetails() {
         <div className="details-header">
           <div>
             <h1>Order Details</h1>
-            <p>Order #{order.id}</p>
+            <p>Order #{String(order._id || id).substring(0, 8).toUpperCase()}</p>
           </div>
 
-          <span
-            className={`order-status ${order.status
-              .toLowerCase()
-              .replace(" ", "-")}`}
-          >
-            {order.status}
+          <span className={`order-status ${statusClass}`}>
+            {status}
           </span>
         </div>
 
         <div className="details-card">
-          <h2>{order.restaurant}</h2>
+          <h2>{order.restaurantName || order.restaurant?.name || "Restaurant"}</h2>
 
           <div className="order-info">
             <div>
               <span>Order Date</span>
-              <strong>{order.date}</strong>
+              <strong>{new Date(order.createdAt || Date.now()).toLocaleString()}</strong>
             </div>
 
             <div>
               <span>Delivery Address</span>
-              <strong>{order.address}</strong>
+              <strong>{order.deliveryAddress || "Hostel Campus"}</strong>
             </div>
 
             <div>
               <span>Payment Method</span>
-              <strong>{order.payment}</strong>
+              <strong>{order.paymentMethod || "Cash on Delivery"}</strong>
             </div>
           </div>
         </div>
@@ -120,10 +101,10 @@ function OrderDetails() {
           <h2>Items</h2>
 
           <div className="details-items">
-            {order.items.map((item, index) => (
+            {order.items && order.items.map((item, index) => (
               <div className="details-item" key={index}>
                 <div>
-                  <strong>{item.name}</strong>
+                  <strong>{item.name} {item.addedBy ? `(Added by ${item.addedBy})` : ""}</strong>
                   <p>
                     ₹{item.price} × {item.quantity}
                   </p>
@@ -141,73 +122,64 @@ function OrderDetails() {
           <h2>Bill Details</h2>
 
           <div className="bill-row">
-            <span>Subtotal</span>
-            <span>₹{order.subtotal}</span>
+            <span>Items Total</span>
+            <span>₹{order.totalAmount || order.total}</span>
           </div>
 
           <div className="bill-row">
             <span>Delivery Fee</span>
-            <span>
-              {order.deliveryFee === 0
-                ? "FREE"
-                : `₹${order.deliveryFee}`}
-            </span>
+            <span>Included / Free</span>
           </div>
 
           <hr />
 
           <div className="bill-total">
             <strong>Total</strong>
-            <strong>₹{order.total}</strong>
+            <strong>₹{order.totalAmount || order.total}</strong>
           </div>
         </div>
 
-        {order.status !== "Delivered" && (
+        {status !== "Delivered" && status !== "Cancelled" && (
           <div className="tracking-card">
-            <h2>Order Tracking</h2>
+            <h2>Order Tracking Status</h2>
 
-            <div className="tracking-step completed">
+            <div className={`tracking-step ${getStepStatus("Pending")}`}>
+              <span>✓</span>
+              <div>
+                <strong>Order Received</strong>
+                <p>Your order has been received by restaurant.</p>
+              </div>
+            </div>
+
+            <div className={`tracking-step ${getStepStatus("Confirmed")}`}>
               <span>✓</span>
               <div>
                 <strong>Order Confirmed</strong>
-                <p>Your order has been confirmed.</p>
+                <p>Restaurant accepted the order.</p>
               </div>
             </div>
 
-            <div
-              className={`tracking-step ${
-                order.status === "Preparing" ||
-                order.status === "On the way"
-                  ? "completed"
-                  : ""
-              }`}
-            >
+            <div className={`tracking-step ${getStepStatus("Preparing")}`}>
               <span>✓</span>
               <div>
                 <strong>Preparing</strong>
-                <p>The restaurant is preparing your food.</p>
+                <p>The kitchen is preparing your food.</p>
               </div>
             </div>
 
-            <div
-              className={`tracking-step ${
-                order.status === "On the way"
-                  ? "completed"
-                  : ""
-              }`}
-            >
+            <div className={`tracking-step ${getStepStatus("Out for Delivery")}`}>
               <span>✓</span>
               <div>
-                <strong>On the Way</strong>
-                <p>Your food is on the way.</p>
+                <strong>Out for Delivery</strong>
+                <p>Restaurant delivery staff is on the way.</p>
               </div>
             </div>
 
-            <div className="tracking-step">
-              <span>4</span>
+            <div className={`tracking-step ${getStepStatus("Delivered")}`}>
+              <span>5</span>
               <div>
                 <strong>Delivered</strong>
-                <p>Your order will be delivered soon.</p>
+                <p>Order delivered to your address.</p>
               </div>
             </div>
           </div>

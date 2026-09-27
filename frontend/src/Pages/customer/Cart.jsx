@@ -11,17 +11,21 @@ function Cart() {
     total,
   } = useCart();
 
+  const itemCount = cart.reduce(
+    (acc, item) => acc + item.quantity,
+    0
+  );
+
+  const tax = Math.round(total * 0.05);
+  const finalTotal = total + 40 + tax;
+
   if (cart.length === 0) {
     return (
       <div className="cart-page">
         <div className="empty-cart">
           <div className="empty-cart-icon">🛒</div>
-
           <h1>Your Cart is Empty</h1>
-
-          <p>
-            Looks like you haven't added anything to your cart yet.
-          </p>
+          <p>Looks like you haven't added anything to your cart yet.</p>
 
           <Link to="/restaurants" className="browse-btn">
             Browse Restaurants
@@ -35,16 +39,11 @@ function Cart() {
     <div className="cart-page">
       <div className="cart-container">
 
+        {/* HEADER */}
         <div className="cart-header">
           <div>
             <h1>Your Cart</h1>
-            <p>
-              {cart.reduce(
-                (total, item) => total + item.quantity,
-                0
-              )}{" "}
-              items in your cart
-            </p>
+            <p>{itemCount} items in your cart</p>
           </div>
 
           <Link to="/restaurants" className="continue-shopping">
@@ -52,61 +51,63 @@ function Cart() {
           </Link>
         </div>
 
+        {/* CONTENT */}
         <div className="cart-content">
 
+          {/* CART ITEMS */}
           <div className="cart-items">
-            {cart.map((item) => (
-              <div className="cart-item" key={item.id}>
+            {cart.map((item) => {
+              const itemId = item._id || item.id;
 
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="cart-item-image"
-                />
+              return (
+                <div className="cart-item" key={itemId}>
 
-                <div className="cart-item-info">
-                  <h3>{item.name}</h3>
+                  <img
+                    src={
+                      item.image ||
+                      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
+                    }
+                    alt={item.name}
+                    className="cart-item-image"
+                  />
 
-                  <p className="restaurant-name">
-                    {item.restaurantName}
-                  </p>
+                  <div className="cart-item-info">
+                    <h3>{item.name}</h3>
+                    <p className="restaurant-name">
+                      {item.restaurantName || "Restaurant"}
+                    </p>
+                    <p className="item-price">₹{item.price}</p>
+                  </div>
 
-                  <p className="item-price">
-                    ₹{item.price}
-                  </p>
-                </div>
+                  <div className="quantity-control">
+                    <button onClick={() => decreaseQuantity(itemId)}>
+                      −
+                    </button>
 
-                <div className="quantity-control">
+                    <span>{item.quantity}</span>
+
+                    <button onClick={() => increaseQuantity(itemId)}>
+                      +
+                    </button>
+                  </div>
+
+                  <div className="item-total">
+                    ₹{item.price * item.quantity}
+                  </div>
+
                   <button
-                    onClick={() => decreaseQuantity(item.id)}
+                    className="remove-btn"
+                    onClick={() => removeFromCart(itemId)}
                   >
-                    −
+                    Remove
                   </button>
 
-                  <span>{item.quantity}</span>
-
-                  <button
-                    onClick={() => increaseQuantity(item.id)}
-                  >
-                    +
-                  </button>
                 </div>
-
-                <div className="item-total">
-                  ₹{item.price * item.quantity}
-                </div>
-
-                <button
-                  className="remove-btn"
-                  onClick={() => removeFromCart(item.id)}
-                >
-                  Remove
-                </button>
-
-              </div>
-            ))}
+              );
+            })}
           </div>
 
+          {/* SUMMARY */}
           <div className="cart-summary">
             <h2>Order Summary</h2>
 
@@ -121,17 +122,15 @@ function Cart() {
             </div>
 
             <div className="summary-row">
-              <span>Taxes</span>
-              <span>₹{Math.round(total * 0.05)}</span>
+              <span>Taxes (5%)</span>
+              <span>₹{tax}</span>
             </div>
 
             <hr />
 
             <div className="summary-total">
               <span>Total</span>
-              <span>
-                ₹{total + 40 + Math.round(total * 0.05)}
-              </span>
+              <span>₹{finalTotal}</span>
             </div>
 
             <Link to="/checkout" className="checkout-btn">
