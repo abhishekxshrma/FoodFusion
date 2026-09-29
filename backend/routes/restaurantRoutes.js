@@ -15,4 +15,6 @@ router.get("/:id", getRestaurantById);
 router.post("/", protect, authorize("restaurant", "admin"), createRestaurant);
 router.put("/:id", protect, authorize("restaurant", "admin"), updateRestaurant);
 
+
+
 module.exports = router;

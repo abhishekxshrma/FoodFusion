@@ -96,10 +96,41 @@ const updateRestaurantStatus = async (req, res) => {
   }
 };
 
+// @desc    Delete a restaurant
+// @route   DELETE /api/admin/restaurants/:id
+// @access  Private (Admin)
+const deleteRestaurant = async (req, res) => {
+  console.log("DELETE RESTAURANT HIT:", req.params.id);
+
+  try {
+    const restaurant = await Restaurant.findById(req.params.id);
+
+    console.log("FOUND:", restaurant);
+
+    if (!restaurant) {
+      return res.status(404).json({
+        message: "Restaurant not found"
+      });
+    }
+
+    await restaurant.deleteOne();
+
+    res.json({
+      message: "Restaurant deleted successfully"
+    });
+  } catch (error) {
+    console.error("DELETE ERROR:", error);
+    res.status(500).json({
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getAdminStats,
   getUsers,
   deleteUser,
   getAllRestaurants,
   updateRestaurantStatus,
+  deleteRestaurant,
 };

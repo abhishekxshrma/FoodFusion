@@ -275,15 +275,40 @@ export const api = {
   },
 
   // Admin API
-  admin: {
-    getStats: async () => {
-      const res = await fetch(`${API_BASE_URL}/admin/stats`, {
-        method: "GET",
-        headers: getHeaders(),
-      });
-      return handleResponse(res);
-    },
+admin: {
+  getStats: async () => {
+    const res = await fetch(`${API_BASE_URL}/admin/stats`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+    return handleResponse(res);
+  },
 
+  getRestaurants: async () => {
+    const res = await fetch(`${API_BASE_URL}/admin/restaurants`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+    return handleResponse(res);
+  },
+
+  deleteRestaurant: async (id) => {
+    const res = await fetch(`${API_BASE_URL}/admin/restaurants/${id}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+    return handleResponse(res);
+  },
+
+  toggleRestaurantStatus: async (id, status) => {
+    const res = await fetch(`${API_BASE_URL}/admin/restaurants/${id}/status`, {
+      method: "PUT",
+      headers: getHeaders(),
+      body: JSON.stringify({ isAvailable: status }),
+    });
+    return handleResponse(res);
+  },
+  
     getUsers: async () => {
       const res = await fetch(`${API_BASE_URL}/admin/users`, {
         method: "GET",
