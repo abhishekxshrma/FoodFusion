@@ -245,10 +245,10 @@ function GroupRoom() {
 
           {/* Share Buttons */}
           <div style={{ display: "flex", gap: "8px", flexWrap: "wrap", alignItems: "center" }}>
-            <button onClick={copyRoomId} className="secondary-btn" style={{ background: "#fff", fontSize: "13px" }}>
+            <button onClick={copyRoomId} className="secondary-btn" style={{ background: "#000000", fontSize: "13px" }}>
               📋 Copy Room ID
             </button>
-            <button onClick={copyRoomLink} className="secondary-btn" style={{ background: "#fff", fontSize: "13px" }}>
+            <button onClick={copyRoomLink} className="secondary-btn" style={{ background: "#030303", fontSize: "13px" }}>
               🔗 Copy Invite Link
             </button>
           </div>
