@@ -20,7 +20,7 @@ const getAdminStats = async (req, res) => {
 
     const recentOrders = await Order.find()
       .populate("customer", "name")
-      .populate("restaurant", "name")
+      .populate("restaurant", "name")       
       .sort({ createdAt: -1 })
       .limit(5);
 

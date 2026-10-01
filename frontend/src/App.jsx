@@ -10,8 +10,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 // Portal
 import Portal from "./Pages/Portal";
-
-// ── Customer Auth Pages ──────────────────────────────────────
+  
+// ──  Customer Auth Pages ──────────────────────────────────────
 import CustomerLogin from "./Pages/customer/CustomerLogin";
 import CustomerSignup from "./Pages/customer/CustomerSignup";
 
